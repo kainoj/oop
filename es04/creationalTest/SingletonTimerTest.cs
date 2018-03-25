@@ -18,7 +18,7 @@ namespace Tests {
             SingletonTimer s = SingletonTimer.Instance();
 
             System.Console.WriteLine("Sleeping...");
-            System.Threading.Thread.Sleep(6000);
+            System.Threading.Thread.Sleep(2000);
             System.Console.WriteLine("...Good morning!");
 
             SingletonTimer s2 = SingletonTimer.Instance();

@@ -16,7 +16,7 @@ namespace singleton {
                     _stopwatch = new Stopwatch();
                     _stopwatch.Start();
                 }
-                if (_stopwatch.Elapsed.Seconds > 5 ) {
+                if (_stopwatch.Elapsed.Seconds > 1 ) {
                     _instance = new SingletonTimer();
                     _stopwatch.Restart();
                 }
