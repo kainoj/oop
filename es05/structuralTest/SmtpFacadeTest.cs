@@ -8,8 +8,10 @@ namespace Tests {
         [Test]
         public void smtpTest() {
 
-            SmtpFacade smtp = new SmtpFacade("smtp.mailtrap.io", 2525, "top", "secret");
+            string user = "top";
+            string pw = "secet";
 
+            SmtpFacade smtp = new SmtpFacade("smtp.mailtrap.io", 2525, user, pw);
             smtp.Send("from@example.com", "to@example.com", "A subject", "BODY");
         }
     }
