@@ -27,13 +27,7 @@ namespace smtp {
                 message.Attachments.Add(new Attachment(Attachment, 
                                                        AttachmentMimeType));
             }
-            
-            try {
-                client.Send(message);
-            }  
-            catch (Exception ex) {
-                Console.WriteLine("SmtpFacade: {0}", ex.ToString() );			  
-            }
+            client.Send(message);
         }
     }
 }
