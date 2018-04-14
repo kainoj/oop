@@ -1,3 +1,4 @@
+using System;
 using interpreter;
 using NUnit.Framework;
 
@@ -37,6 +38,9 @@ namespace test {
             // not not ((x or y) and true) <=> true
             exp = new Not(new Not(new And(new Const(true), new Or(new Var("x"), new Var("y")))));
             Assert.True(exp.Interpret(ctx));
+
+            exp = new Var("z");
+            Assert.Throws<Exception>(() => exp.Interpret(ctx));
         }
     }
 }
