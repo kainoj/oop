@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using command;
 using datahandler;
+using datahandlerstrategy;
 
 namespace behavioral
 {
@@ -20,11 +21,17 @@ namespace behavioral
 
             Console.WriteLine("=================");
 
+            Console.WriteLine("\n> XML pasrse using a TEMPLATE pattern");
+            
             DataAccessHandler xml = new XmlDataAccess();
             xml.Execute();
 
-            DataAccessHandler db = new DbDataAccess();
-            db.Execute();
+            // Requires a Posgress DB
+            // DataAccessHandler db = new DbDataAccess();
+            // db.Execute();
+            Console.WriteLine("\n> XML pasrse using a STRATEGY pattern");
+            XmlDataContext xml2 = new XmlDataContext(new XmlStrategy());
+            xml2.Execute();
         }
     }
 }
