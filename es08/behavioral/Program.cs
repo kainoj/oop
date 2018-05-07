@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using command;
+using datahandler;
 
 namespace behavioral
 {
@@ -16,6 +17,14 @@ namespace behavioral
             invoker.Dequeue();
             invoker.Dequeue();
             invoker.Dequeue();
+
+            Console.WriteLine("=================");
+
+            DataAccessHandler xml = new XmlDataAccess();
+            xml.Execute();
+
+            DataAccessHandler db = new DbDataAccess();
+            db.Execute();
         }
     }
 }
