@@ -9,6 +9,8 @@ namespace simplecontainertest
         interface IFoo {}
         class Foo : IFoo {}
 
+        class Foo2 : IFoo {}
+
         interface IBar {}
         class Bar : IBar {}
 
@@ -47,13 +49,19 @@ namespace simplecontainertest
             Assert.True(bar is Bar);            
         }
 
-        // [Test]
-        // public void ResolveFooBarTest() {
-        //     SimpleContainer c = new SimpleContainer();
-        //     c.RegisterType<IFoo, Bar>();
-        //     IFoo g = c.Resolve<IFoo>();
-        //     Assert.True(g is Bar);
-        // }
+        [Test]
+        public void ResolveTwiceIFooTest() {
+            SimpleContainer c = new SimpleContainer();
+            // Register IFoo as Foo
+            c.RegisterType<IFoo, Foo>();
+            IFoo foo = c.Resolve<IFoo>();
+            Assert.True(foo is Foo);
+            
+            // Re-register IFoo as Foo2
+            c.RegisterType<IFoo, Foo2>();
+            IFoo foo2 = c.Resolve<IFoo>();
+            Assert.True(foo2 is Foo2);
+        }
 
         [Test]
         public void ResolveUnregisteredTest() {

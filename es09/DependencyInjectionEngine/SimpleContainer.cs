@@ -19,10 +19,8 @@ namespace simplecontainer
                 where To : class 
                 where From : class 
             {
-            if(_types.ContainsKey(typeof(From)) == false) {
-                _types.Add(typeof(From), typeof(To));
-            }
-            if(Singleton && _singletons.ContainsKey(typeof(From)) == false) {
+            _types[typeof(From)] = typeof(To);
+            if(Singleton) {
                 _singletons.Add(typeof(From), newInstance<To>());
             }
         }
