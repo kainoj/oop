@@ -69,5 +69,14 @@ namespace simplecontainertest
             IFoo foo;
             Assert.Throws<Exception>(() => { foo = c.Resolve<IFoo>(); } );
         }
+
+        [Test]
+        public void registerInstanceTest() {
+            SimpleContainer c = new SimpleContainer();
+            IFoo foo = new Foo();
+            c.RegisterInstance(foo);
+            IFoo foo2 = c.Resolve<IFoo>();
+            Assert.AreEqual(foo, foo2);
+        }
     }
 }

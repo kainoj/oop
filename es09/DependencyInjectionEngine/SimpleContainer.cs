@@ -30,7 +30,7 @@ namespace simplecontainer
                 return (T)_singletons[typeof(T)];
             }
             if(_types.ContainsKey(typeof(T))) {
-                return (T) Activator.CreateInstance( _types[typeof(T)]);
+                return (T) Activator.CreateInstance(_types[typeof(T)]);
             }
             T t;
             try {
@@ -43,6 +43,10 @@ namespace simplecontainer
 
         private T newInstance<T>() {
             return Activator.CreateInstance<T>();
+        }
+
+        public void RegisterInstance<T>(T Instance) {
+            _singletons[typeof(T)] = Instance;
         }
     }
 }
