@@ -11,7 +11,7 @@ namespace simplecontainer
         private Dictionary<Type, Type> _types = new Dictionary<Type, Type>();
 
         // Avoid cycles in the resolution
-        private List<ConstructorInfo> _resolved = new List<ConstructorInfo>();
+        private List<Type> _resolved = new List<Type>();
 
         public void RegisterType<T>(bool Singleton = false) where T : class {
             if (Singleton && _singletons.ContainsKey(typeof(T)) == false) {
@@ -30,13 +30,19 @@ namespace simplecontainer
         }
 
         public T Resolve<T>() {
-            
+            _resolved.Clear();
+            return ResolveRecursively<T>();
+        }
+
+        public T ResolveRecursively<T>() {
+
             if(_singletons.ContainsKey(typeof(T))) {
                 return (T)_singletons[typeof(T)];
             }
 
+            _resolved.Add(typeof(T));
+            
             ConstructorInfo[] ctorsInfo = typeof(T).GetConstructors();
-
             
             // Type T has no constructor OR
             // has only one constuctor that has no parameters
@@ -59,18 +65,24 @@ namespace simplecontainer
 
             foreach(var param in ctor.GetParameters()) {
                 Type P = param.ParameterType;
+
+                if(_resolved.Contains(P)) {
+                    throw new Exception("SimpleContainer: cycle detected!");
+                }
+
                 try {
-                    MethodInfo method = typeof(SimpleContainer).GetMethod("Resolve");
+                    MethodInfo method = typeof(SimpleContainer).GetMethod("ResolveRecursively");
                     MethodInfo generic = method.MakeGenericMethod(P);
                     generic.Invoke(this, null);
                     ctorParams.Add(generic.Invoke(this, null));
-                } catch(Exception) {
+                } catch(Exception e) {
                     throw new Exception(
                         "SimpleContainer: failed to resolve type recursively: " 
-                        + P.ToString());
+                        + P.ToString()
+                        + "\n\t→ more: "
+                        + e.ToString());
                 }
             }
-
             return (T) Activator.CreateInstance(typeof(T), ctorParams.ToArray());
         }
 
